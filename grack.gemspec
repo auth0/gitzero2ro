@@ -14,4 +14,5 @@ and receive-pack processes with the '--stateless-rpc' option, this does not actu
   s.license = 'MIT'
 
   s.add_dependency('rack')
+  s.add_dependency('jwt')
 end
