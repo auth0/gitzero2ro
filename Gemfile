@@ -3,6 +3,9 @@ source 'https://rubygems.org'
 gem "rack", "~> 1.5.2"
 gem "rake"
 gem 'jwt', '0.1.11'
+gem 'thin'
+
+gem 'dotenv-rails', :groups => [:development, :test]
 
 gem "coveralls", :require => false
 

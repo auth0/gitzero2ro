@@ -3,13 +3,13 @@ require 'rack/request'
 require 'rack/response'
 require 'rack/utils'
 require 'time'
-require File.join(File.dirname(__FILE__), 'git_adapter.rb')
+require './lib/git_adapter'
 
 module Grack
-  class App 
-    
+  class App
+
     attr_accessor :git, :dir
-    
+
     VALID_SERVICE_TYPES = ['upload-pack', 'receive-pack']
 
     SERVICES = [
@@ -24,7 +24,7 @@ module Grack
       ["GET",  'get_text_file',    "(.*?)/objects/info/[^/]*$"],
       ["GET",  'get_loose_object', "(.*?)/objects/[0-9a-f]{2}/[0-9a-f]{38}$"],
       ["GET",  'get_pack_file',    "(.*?)/objects/pack/pack-[0-9a-f]{40}\\.pack$"],
-      ["GET",  'get_idx_file',     "(.*?)/objects/pack/pack-[0-9a-f]{40}\\.idx$"],      
+      ["GET",  'get_idx_file',     "(.*?)/objects/pack/pack-[0-9a-f]{40}\\.idx$"],
     ]
 
     def initialize(config = false)
@@ -44,9 +44,9 @@ module Grack
     def call(env)
       @env = env
       @req = Rack::Request.new(env)
-      
+
       cmd, path, @reqfile, @rpc = self.class.match_routing(@req)
-      
+
       return render_method_not_allowed if cmd == 'not_allowed'
       return render_not_found if !cmd
 
@@ -170,14 +170,14 @@ module Grack
         @res.finish
       end
     end
-    
+
     def is_subpath(path, checkpath)
       path = Rack::Utils.unescape(path)
       checkpath = Rack::Utils.unescape(checkpath)
       checkpath.sub!(/\/+$/,'') # Remove trailing slashes from filepath
       !!(/^#{checkpath}(\/|$)/ =~ path)
     end
-    
+
     def get_project_root
       root = @config[:project_root] || Dir.pwd
     end
