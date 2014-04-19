@@ -2,6 +2,8 @@ require 'jwt'
 require 'rack'
 require 'base64'
 require 'uri'
+require 'erb'
+require 'ostruct'
 
 module Grack
   class Auth0JWT
@@ -9,6 +11,8 @@ module Grack
       @app = app
       @options = options
       @secret = Base64.decode64(@options[:client_secret].gsub('-', '+').gsub('_','/'))
+      login_page_path = File.expand_path("../views/login.erb", File.dirname(__FILE__));
+      @login_page = path = ERB.new(File.read(login_page_path))
     end
 
     def call(env)
@@ -53,10 +57,17 @@ module Grack
         query = URI.encode_www_form({
           :response_type => "token",
           :client_id     => @options[:client_id],
-          :redirect_uri  => "#{env["rack.url_scheme"]}://#{env["HTTP_HOST"]}/login.html",
+          :redirect_uri  => "#{env["rack.url_scheme"]}://#{env["HTTP_HOST"]}/",
           :scope         => "openid -iss -iat" #openid profile
         })
-        return [302, { "Location" => "https://#{@options[:namespace]}/authorize/?" + query, }, [ '' ]]
+
+        login_link = "https://#{@options[:namespace]}/authorize/?#{query}"
+
+        login = @login_page.result(OpenStruct.new(
+          "login_link" => login_link
+        ).instance_eval { binding })
+
+        Rack::Response.new(login)
       end
 
       def reject(env)

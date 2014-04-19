@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo "===================================="
+echo "= no seas boludo necesitas el JWT! ="
+echo "= logueate aca http://blabla/com   ="
+echo "=                                  ="
+echo "===================================="
+
+exit 1
