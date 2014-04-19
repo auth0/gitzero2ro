@@ -14,12 +14,13 @@
       color: #ccc;
       display: block;
       padding: 5px;
-      width: 98%;
+      width: 96%;
       word-wrap: break-word;
       height: 278px;
-      font-size: 1.9em;
+      font-size: 1.7em;
       font-family: monospace;
-
+      padding-left: 9px;
+      padding-top: 20px;
     }
     h2, h1 {
       font-weight: 500;
@@ -59,6 +60,9 @@
       -moz-transition-duration: 0.3s;
       -o-transition-duration: 0.3s;
       transition-duration: 0.3s;
+      padding-bottom: 1px;
+      border-bottom-width: 3px;
+      border-bottom-style: solid;
     }
     a:hover{
       color: #04b1d8;
@@ -81,14 +85,12 @@
 
 
       <div class="anonymous" style="display:none">
-        <p>This git repository is protected by <strong>token tuthentication</strong>.</p>
-        <p>Please <a href="<%= login_link %>">login</a> first to get your <strong>token</strong>.</p>
-        <p>Once you have the token, you will be able to clone/push/pull as follows:</p>
+        <p>This git repository is protected by <strong>token-based authentication</strong>.</p>
         <pre class="code clone-example-1" readonly></pre>
       </div>
 
       <div class="authenticated" style="display:none">
-        <h2>Use this token as <strong>USERNAME</strong> and leave the <strong>PASSWORD</strong></h2>
+        <h2>Use this token as <strong>USERNAME</strong> and leave the <strong>PASSWORD</strong> empty</h2>
         <pre class="code token"></pre>
         <h2>Clone example</h2>
         <pre class="code clone-example-2" readonly></pre>
@@ -97,7 +99,16 @@
     </div>
 
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script src="js/jwt-decode.js"></script>
+    <script src="https://cdn.auth0.com/w2/auth0-widget-3.0.min.js"></script>
+    <script>
+      window.auth0_settings = {
+        domain: "<%= namespace %>",
+        clientID: "<%= client_id %>",
+        callbackURL: window.location.origin,
+        callbackOnLocationHash: true,
+        scope: 'openid -iss -iat'
+      };
+    </script>
     <script src="js/main.js"></script>
 </body>
 </html>

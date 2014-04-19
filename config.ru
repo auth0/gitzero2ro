@@ -7,7 +7,10 @@ require 'rack'
 require 'dotenv'
 Dotenv.load
 
-use Rack::Static, :urls => ["/login.html", "/js", "/img"], :root => "public"
+use Rack::Static, :urls => ["/login.html",
+                            "/favicon.ico",
+                            "/js",
+                            "/img"], :root => "public"
 
 use Rack::ShowExceptions
 

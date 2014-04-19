@@ -54,17 +54,9 @@ module Grack
       end
 
       def init_auth(env)
-        query = URI.encode_www_form({
-          :response_type => "token",
-          :client_id     => @options[:client_id],
-          :redirect_uri  => "#{env["rack.url_scheme"]}://#{env["HTTP_HOST"]}/",
-          :scope         => "openid -iss -iat" #openid profile
-        })
-
-        login_link = "https://#{@options[:namespace]}/authorize/?#{query}"
-
         login = @login_page.result(OpenStruct.new(
-          "login_link" => login_link
+          "namespace" => @options[:namespace],
+          "client_id" => @options[:client_id],
         ).instance_eval { binding })
 
         Rack::Response.new(login)

@@ -1,22 +1,22 @@
 (function () {
   $('.clone-example-1')
-    .html('git clone ' + window.location.protocol + '//<span class="highlight">token</span>:@' + window.location.host);
+    .html('$ git clone ' + window.location.protocol + '//<span class="highlight"><a href="#" class="login">login</a></span>:@' + window.location.host);
 
-  var hash = window.location.hash;
+  var widget = new Auth0Widget(window.auth0_settings);
 
-  if (!hash) {
+  $('.login').on('click', function () {
+    widget.signin();
+  });
+
+  var result = widget.parseHash(window.location.hash);
+
+  if (!result || result.error || !result.id_token) {
     $('.authenticated').hide();
     $('.anonymous').show();
     return;
-  } else {
-    $('.authenticated').show();
-    $('.anonymous').hide();
   }
 
-  var token = /id_token=(.*)$/ig.exec(hash.split('&')[1])[1];
-  var decoded = jwt_decode(token);
-
-  $('.name').text(decoded.name);
+  var token = result.id_token;
 
   $('.token').html(token);
   $('.clone-example-2')
@@ -34,4 +34,8 @@
       window.getSelection().addRange(range);
     }
   });
+
+  $('.authenticated').show();
+  $('.anonymous').hide();
+
 })();
