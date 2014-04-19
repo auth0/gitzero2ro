@@ -31,6 +31,14 @@ You need three env variables:
 -  AUTH0_CLIENT_ID
 -  AUTH0_CLIENT_SECRET
 
+## Running
+
+You can use rackup or any ruby http server directly.
+
+```
+$ rackup
+```
+
 ## License
 
 	(The MIT License)
