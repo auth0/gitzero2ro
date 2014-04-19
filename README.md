@@ -1,97 +1,41 @@
-Grack - Ruby/Rack Git Smart-HTTP Server Handler
-===============================================
+# GitZero
 
-This project aims to replace the builtin git-http-backend CGI handler
-distributed with C Git with a Rack application.  This reason for doing this
-is to allow far more webservers to be able to handle Git smart http requests.
+![ss-2014-04-19T20-33-25.png](https://s3.amazonaws.com/blog.auth0.com/ss-2014-04-19T20-33-25.png)
 
-The default git-http-backend only runs as a CGI script, and specifically is
-only targeted for Apache 2.x usage (it requires PATH_INFO to be set and 
-specifically formatted).  So, instead of trying to get it to work with
-other CGI capable webservers (Lighttpd, etc), we can get it running on nearly
-every major and minor webserver out there by making it Rack capable.  Rack 
-applications can run with the following handlers:
 
-* CGI
-* FCGI
-* Mongrel (and EventedMongrel and SwiftipliedMongrel)
-* WEBrick
-* SCGI
-* LiteSpeed
-* Thin
+This the Auth0 fork of [Grack - Rack Git Smart-HTTP Server](https://github.com/schacon/grack).
 
-These web servers include Rack handlers in their distributions:
+It adds support for token-based authentication.
 
-* Ebb
-* Fuzed
-* Phusion Passenger (which is mod_rack for Apache and for nginx)
-* Unicorn
+To clone/pull/push from a gitzero repository, you need to first open the url in a browser and login with whatever identity provider you have configured in Auth0:
 
-With [Warbler](http://caldersphere.rubyforge.org/warbler/classes/Warbler.html),
-and JRuby, we can also generate a WAR file that can be deployed in any Java
-web application server (Tomcat, Glassfish, Websphere, JBoss, etc).
+![ss-2014-04-19T20-34-10.png](https://s3.amazonaws.com/blog.auth0.com/ss-2014-04-19T20-34-10.png)
 
-By default, Grack uses calls to git on the system to implement Smart-Http. Since the git-http-backend is really just a simple wrapper for the upload-pack
-and receive-pack processes with the '--stateless-rpc' option, this does not actually re-implement very much. However, it is possible to use a different backend by specifying a different Adapter. See below for a list.
+Then you will get a token:
 
-Dependencies
-========================
-* Ruby - http://www.ruby-lang.org
-* Rack - http://rack.rubyforge.org
-* A Rack-compatible web server
-* Git >= 1.7 (if using the standard GitAdapter, see below)
-* Mocha (only for running the tests)
+![ss-2014-04-19T20-34-41.png](https://s3.amazonaws.com/blog.auth0.com/ss-2014-04-19T20-34-41.png)
 
-Quick Start
-========================
-	$ bundle install
-	$ (edit config.ru to set git project path)
-	$ rackup --host 127.0.0.1 -p 8080 config.ru
-	$ git clone http://127.0.0.1:8080/tests/example/test_repo/
+You can use this token in your upstream operations as follows:
 
-Adapters
-========================
+~~~
+$ git push https://<token>:@myserver.com/
+~~~
 
-Grack makes calls to the git binary through the GitAdapter abstraction class. Grack can be made to use a different backend by specifying a different Adapter class in Grack's configuration, for example:
+Use the __token__ as the username and leave the password empty.
 
-```ruby
-Grack::App.new({
-      :adapter => Grack::RJGitAdapter
-    })
-```
+## Configuration
 
-Alternative adapters available:
-- [rjgit_grack](http://github.com/dometto/rjgit_grack) lets Grack use the [RJGit](http://github.com/repotag/rjgit) gem to implement smart-http in pure jruby.
+You need three env variables:
 
-See below if you are looking to create a custom Adapter.
+-  AUTH0_NAMESPACE
+-  AUTH0_CLIENT_ID
+-  AUTH0_CLIENT_SECRET
 
-Contributing
-========================
-If you would like to contribute to the Grack project, I prefer to get
-pull-requests via GitHub.  You should include tests for whatever functionality
-you add.  Just fork this project, push your changes to your fork and click
-the 'pull request' button.
+## License
 
-Run 'bundle install' to install development dependencies. Then you should be able to run the tests with a 'rake' command. On ruby >= 1.9, a coverage report will be generated using simplecov. On ruby 1.8, use rcov instead: uncomment the relevant line in the Gemfile and use 'rake rcov'. 
-
-### Developing Adapters
-
-Adapters are abstraction classes that handle the actual implementation of the smart-http protocol (advertising refs, uploading and receiving packfiles). Such abstraction classes must have the following methods:
-
-```ruby
-MyAdapter.receive_pack(repository_path, opts = {}, &block)
-MyAdapter.upload_pack(repository_path, opts = {}, &block)
-MyAdapter.update_server_info(repository_path, opts = {}, &block) # The equivalent of 'git update-server-info'. Optional, for falling back to dumb-http mode.
-MyAdapter.get_config_setting(repository_path, key) # Always returns a string, e.g. "false" for key "core.bare".
-```
-
-Both upload_pack and receive_pack must return a ref-advertisement string if opts[:advertise_refs] is set to true; otherwise, they must yield an IO object that Grack uses to read the client's response from.
-
-License
-========================
 	(The MIT License)
 
-	Copyright (c) 2009 Scott Chacon <schacon@gmail.com>
+	Copyright (c) 2014 Auth0, Inc <support@auth0.com>
 
 	Permission is hereby granted, free of charge, to any person obtaining
 	a copy of this software and associated documentation files (the
