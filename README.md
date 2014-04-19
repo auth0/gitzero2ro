@@ -3,7 +3,7 @@
 ![ss-2014-04-19T20-33-25.png](https://s3.amazonaws.com/blog.auth0.com/ss-2014-04-19T20-33-25.png)
 
 
-This the Auth0 fork of [Grack - Rack Git Smart-HTTP Server](https://github.com/schacon/grack).
+This is the Auth0 fork of [Grack - Rack Git Smart-HTTP Server](https://github.com/schacon/grack).
 
 It adds support for token-based authentication.
 
