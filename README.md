@@ -1,15 +1,24 @@
 # GitZero
 
-![ss-2014-04-19T20-33-25.png](https://s3.amazonaws.com/blog.auth0.com/ss-2014-04-19T20-33-25.png)
-
-This is the Auth0 fork of [Grack - Rack Git Smart-HTTP Server](https://github.com/schacon/grack).
+This is an Auth0 fork of [Grack - Rack Git Smart-HTTP Server](https://github.com/schacon/grack).
 
 It authenticate users with username and password. This works for some connection types:
 
 - __Database Connections__
 - __Active Directory connections__
 
+If you need to use another type of authentication provider check [GitZero](http://github.com/auth0/gitzero).
+
 To clone/pull/push a user must use their real username and password credentials.
+
+## Example cloning
+
+~~~bash
+~/Projects » git clone http://my-gitzero-ro-server.com/my-project
+Cloning into 'my-project'...
+Username for 'http://my-gitzero-ro-server.com/my-project': my-ad-username
+Password for 'http://my-ad-username@localhost:9292': my-ad-password
+~~~
 
 ## Configuration
 
