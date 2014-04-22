@@ -1,4 +1,4 @@
-# GitZero
+# GitZero - Username and Password authentication
 
 This is an Auth0 fork of [Grack - Rack Git Smart-HTTP Server](https://github.com/schacon/grack).
 
