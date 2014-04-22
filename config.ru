@@ -1,7 +1,6 @@
 require './lib/grack'
 require './lib/git_adapter'
-require './lib/dummy_or_not'
-require './lib/auth0_jwt'
+require './lib/auth0_ro'
 
 require 'rack'
 require 'dotenv'
@@ -14,10 +13,11 @@ use Rack::Static, :urls => ["/login.html",
 
 use Rack::ShowExceptions
 
-use Grack::Auth0JWT, {
+use Grack::Auth0RO, {
   :namespace     => ENV["AUTH0_NAMESPACE"],
   :client_id     => ENV["AUTH0_CLIENT_ID"],
-  :client_secret => ENV["AUTH0_CLIENT_SECRET"]
+  :client_secret => ENV["AUTH0_CLIENT_SECRET"],
+  :connection    => ENV["AUTH0_CONNECTION"]
 }
 
 config = {

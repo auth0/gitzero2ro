@@ -12,8 +12,6 @@ GEM
     dotenv (0.10.0)
     dotenv-rails (0.10.0)
       dotenv (= 0.10.0)
-    jwt (0.1.11)
-      multi_json (>= 1.5)
     kgio (2.9.2)
     metaclass (0.0.4)
     mime-types (2.2)
@@ -51,7 +49,6 @@ PLATFORMS
 DEPENDENCIES
   coveralls
   dotenv-rails
-  jwt (= 0.1.11)
   mocha
   rack (~> 1.5.2)
   rack-test (~> 0.6.2)
