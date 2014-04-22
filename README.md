@@ -2,26 +2,14 @@
 
 ![ss-2014-04-19T20-33-25.png](https://s3.amazonaws.com/blog.auth0.com/ss-2014-04-19T20-33-25.png)
 
-
 This is the Auth0 fork of [Grack - Rack Git Smart-HTTP Server](https://github.com/schacon/grack).
 
-It adds support for token-based authentication.
+It authenticate users with username and password. This works for some connection types:
 
-To clone/pull/push from a gitzero repository, you need to first open the url in a browser and login with whatever identity provider you have configured in Auth0:
+- __Database Connections__
+- __Active Directory connections__
 
-![ss-2014-04-19T20-34-10.png](https://s3.amazonaws.com/blog.auth0.com/ss-2014-04-19T20-34-10.png)
-
-Then you will get a token:
-
-![ss-2014-04-19T20-34-41.png](https://s3.amazonaws.com/blog.auth0.com/ss-2014-04-19T20-34-41.png)
-
-You can use this token in your upstream operations as follows:
-
-~~~
-$ git push https://<token>:@myserver.com/
-~~~
-
-Use the __token__ as the username and leave the password empty.
+To clone/pull/push a user must use their real username and password credentials.
 
 ## Configuration
 
@@ -29,7 +17,7 @@ You need three env variables:
 
 -  AUTH0_NAMESPACE
 -  AUTH0_CLIENT_ID
--  AUTH0_CLIENT_SECRET
+-  AUTH0_CONNECTION
 
 ## Running
 
