@@ -11,7 +11,7 @@ If you need to use another type of authentication provider check [GitZero](http:
 
 To clone/pull/push a user must use their real username and password credentials.
 
-## Example cloning
+## Example: cloning
 
 ~~~bash
 ~/Projects » git clone http://my-gitzero-ro-server.com/my-project
